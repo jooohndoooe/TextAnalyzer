@@ -6,7 +6,7 @@ using namespace std;
 const int NUMBER_OF_LETTERS = 26;
 
 struct TrieNode {
-//A Node used to construct a Trie
+//A Node, used to construct a Trie
     struct TrieNode* children[NUMBER_OF_LETTERS];
     int isWord;
     int amountOfEntries;

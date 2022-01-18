@@ -4,14 +4,20 @@
 
 using namespace std;
 
+const int A_REGULAR = 'a';
+const int Z_REGULAR = 'z';
+const int A_CAPITAL = 'A';
+const int Z_CAPITAL = 'Z';
+const vector<char> SENTANCE_ENDING_SYMBOLS = { '.','!','?' };
+
 int CharToTrieChildIndex(char c) {
     //Returns a value from 0 to 25, that determines the code of the given letter
     int index = c;
-    if (97 <= index && index <= 122) {
-        return index - 97;
+    if (A_REGULAR <= index && index <= Z_REGULAR) {
+        return index - A_REGULAR;
     }
-    if (65 <= index && index <= 90) {
-        return index - 65;
+    if (A_CAPITAL <= index && index <= Z_CAPITAL) {
+        return index - A_CAPITAL;
     }
     return -1;
 }
@@ -28,7 +34,7 @@ struct TrieNode* MakeNode() {
     newNode->isWord = 0;
     newNode->amountOfEntries = 0;
     for (int i = 0;i < NUMBER_OF_LETTERS;i++) {
-        newNode->children[i] = NULL;
+        newNode->children[i] = nullptr;
     }
     return newNode;
 }
@@ -50,9 +56,12 @@ Trie::Trie(vector<string> wordList) {
 
 void Trie::AddWord(string s) {
     //Adds a word into a trie
-    if (s[s.size() - 1] == '.' || s[s.size() - 1] == '!' || s[s.size() - 1] == '?') { 
-        sentences++; 
-        s = s.substr(0, s.size() - 1); 
+    for (int i = 0;i < SENTANCE_ENDING_SYMBOLS.size();i++) {
+        if (s.size() == 0) { return; }
+        if (s[s.size() - 1] == SENTANCE_ENDING_SYMBOLS[i]) {
+            sentences++;
+            s = s.substr(0, s.size() - 1);
+        }
     }
     if (s.size() == 0) { return; }
     if (s[s.size() - 1] == ',') {
